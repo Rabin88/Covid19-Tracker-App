@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Covid-19 Tracker</title>
+
+  <!-- Bootstrap Link -->
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <!-- CSS Link -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <!-- Heading -->
+  <h1>C
+    <span class="image-div">
+      <img class="virus-image" src="covid-img.png" height="70" width="70" alt="">
+    </span>
+    vid-19 Live Update</h1>
+
+  <!-- Search Field ------------------------------------------------>
+  <div class="">
+    <label class="searchLabel">Search </label>
+    <!-- <input id = 'search' type="text" name="countryName" value=""> -->
+
+    <!-- Country Select Option -->
+    <select class="searchBox" id="searchOption">
+      <option value="" selected disabled>-- Select Country --</option>
+    </select>
+    <button id="search" class="searchButton" onclick='myFunction()' type="submit" name="button">Done</button>
+
+  </div>
+
+  <!-- Country Name ------------------------------------------------->
+  <div class="countryName">
+    <p> <span id="country"></span></p>
+  </div>
+
+  <!-- Date ----------------------------------------------------------->
+  <div class="date">
+
+  </div>
+
+  <!-- Confirmed Positive Div ------------------------------------------->
+  <div class="row container-fluid">
+    <div class="positiveCases ">
+      <div class="positive-background col-md">
+        <p class="positive-title">Confirmed Positive</p>
+      </div>
+      <div class="text-container">
+        <p class="text">Total : <span id="total-confirmed"></span></p>
+        <p class="text">Today : <span id="today-confirmed"></span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Deaths Div ------------------------------------------------------->
+  <div class="row container-fluid">
+
+    <div class="death">
+      <div class="death-background col-md">
+        <p class="death-title">Deaths</p>
+      </div>
+
+      <div class="text-container">
+        <p class="text">Total : <span id="total-deaths"></span></p>
+        <p class="text">Today : <span id="today-deaths"></span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer --------------------------------------------------------->
+  <!-- <div class="bottom-container conainer-fluid">
+
+    <p class="copyright">©2020 Rabin Pun. All rights reserved.</p>
+
+  </div> -->
+
+  <!-- Script.js Section ---------------------------------------------------------->
+  <script type="text/javascript">
+    // Get Date Format
+    let nowdate = new Date(); //toGMTString()  //toDateString()
+    // document.getElementById('date').innerHTML = nowdate.toDateString();
+    document.querySelector('.date').innerHTML = nowdate.toDateString();
+
+
+    // Get United Kingdom Data when page loads
+    getData();
+    async function getData() {
+
+      const response = await fetch(`/api`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      });
+      const data = await response.json();
+      const result = data;
+
+      for (var i = 0; i < result.length; i++) {
+        // console.log(result[i].Country);
+        if (result[i].Country === "United Kingdom") {
+          document.getElementById('country').innerHTML = result[i].Country;
+          document.getElementById('total-confirmed').innerHTML = result[i].TotalConfirmed.toLocaleString();
+          document.getElementById('today-confirmed').innerHTML = result[i].NewConfirmed.toLocaleString();
+          document.getElementById('total-deaths').innerHTML = result[i].TotalDeaths.toLocaleString();
+          document.getElementById('today-deaths').innerHTML = result[i].NewDeaths.toLocaleString();
+        }
+      }
+
+    };
+
+
+
+    // Populate country in select option field
+
+    // Get the select Option value
+    let searchlist = document.getElementById('searchOption').value;
+
+    async function searchCountry() {
+
+      const response = await fetch(`/api`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      });
+      const data = await response.json();
+      const result = data;
+      result.forEach(function(item) {
+        //Create Option Element Tag
+        var countryList = document.createElement('option');
+        countryList.innerText = item.Country;
+        // countryList.setAttribute('item', item.Country);
+        document.getElementById('searchOption').appendChild(countryList);
+
+      });
+
+    };
+    searchCountry();
+
+
+    // Get Country using button function
+    async function myFunction() {
+
+      // let inputValue = document.getElementById('search').value;
+      let selectValue = document.getElementById('searchOption').value;
+      // console.log(selectValue);
+      const response = await fetch(`/api`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      });
+      const data = await response.json();
+      const result = data;
+
+      for (var i = 0; i < result.length; i++) {
+        if (selectValue === result[i].Country) {
+          selectValue = result[i].Country;
+          document.getElementById('country').innerHTML = selectValue;
+          document.getElementById('total-confirmed').innerHTML = result[i].TotalConfirmed.toLocaleString();
+          document.getElementById('today-confirmed').innerHTML = result[i].NewConfirmed.toLocaleString();
+          document.getElementById('total-deaths').innerHTML = result[i].TotalDeaths.toLocaleString();
+          document.getElementById('today-deaths').innerHTML = result[i].NewDeaths.toLocaleString();
+          break;
+
+        } else {
+          document.getElementById('country').innerHTML = 'Please Select a Country';
+          document.getElementById('total-confirmed').innerHTML = "N/A";
+          document.getElementById('today-confirmed').innerHTML = "N/A";
+          document.getElementById('total-deaths').innerHTML = "N/A";
+          document.getElementById('today-deaths').innerHTML = "N/A";
+        }
+      }
+
+    };
+
+
+    // This date builder function does not work
+
+    // function builder(d){
+    //   let months = ["January", "February", "March", "April", "May", "June"
+    //                 "July", "August", "September", "October", "November", "December"];
+    //   let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"
+    //                 "Saturday", "Sunday"];
+    //   let day = days[d.getDay()];
+    //   let date = d.getDate();
+    //   let month = months[d.getMonth()];
+    //   let year = d.getFullYear();
+    //
+    //   return `${day} ${date} ${month} ${year}`;
+    // };
+  </script>
+</body>
+
+</html>

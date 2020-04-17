@@ -1,0 +1,130 @@
+
+body{
+  background-color: #bae5e5;
+  text-align: center;
+  font-family: Georgia;
+}
+
+h1{
+  color: #d7385e;
+  margin-top: 100px;
+  margin-bottom: 50px;
+  /* font-size: 40px; */
+}
+
+/****************** Image rotation **************************/
+@-webkit-keyframes rotate {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+.virus-image {
+    -webkit-animation-name:            rotate;
+    -webkit-animation-duration:        5s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+}
+
+.date{
+  color: #521262;
+  font-size: 25px;
+  font-weight: 300;
+}
+/* Search Opiton Style */
+.searchBox{
+  text-align: center;;
+  height:35px;
+  width: 100%;
+  max-width: 300px;
+  padding: 20px 25px;
+  border: none;
+  outline: none;
+  background-color: rgba(255,255,255,0.6);
+  border-radius: 16px 0 16px 0px;
+  border-bottom: 3px solid #DF8E00;
+  font-size: 15px;
+
+}
+.searchBox:focus {
+  background-color: rgba(255, 255, 255, 0.6);
+}
+
+.searchButton{
+  color: white;
+  height:35px;
+  border: none;
+  outline: none;
+  margin-left: 15px;
+  border-radius: 16px;
+  width: 60px;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: Georgia;
+  background-color: #6f5a7e;
+}
+
+.searchLabel{
+  font-size: 20px;
+  font-weight:550;
+  margin-right: 10px;
+}
+
+/* Country Name Style */
+.countryName{
+  color: #cc0e74;
+  margin-top: 30px;
+  font-size: 30px;
+  font-weight:550;
+}
+
+.container-fluid{
+  padding: 3% 20%;
+}
+
+/* Confirmed Postive Div Style */
+.positiveCases{
+  background-color: #08d9d6;
+  width: 100%;
+  height: 250px;
+  margin-top: 20px;
+
+}
+
+.positive-background{
+  height:40%;
+  background-color: #f3c623;
+  font-size: 25px;
+  font-weight:550;
+
+}
+.positive-title, .death-title{
+  padding: 25px;
+
+}
+.text-container{
+  margin-top: 30px;
+
+}
+.text{
+  color: #521262;
+  font-size: 25px;
+  font-weight:bold;
+}
+
+/* Death Div Style */
+.death-background{
+  height:40%;
+  background-color: #d72323;
+  font-size: 25px;
+  font-weight:550;
+
+}
+.death{
+  background-color: #08d9d6;
+  height: 250px;
+  width: 100%;
+}
